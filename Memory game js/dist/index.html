@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Landing page -->
+    <div id="landing-page" class="h-screen bg-[#F8ECC6] game-board" style="background-image: url(images/background-angled.png);background-position: start;background-repeat: no-repeat; background-size: contain;">
+        <!-- items inside -->
+        <div class="relative flex justify-between">
+            <!-- Play Button -->
+            <div>
+                <button id="play-game" class="absolute text-4xl bottom-24 left-[500px] bg-[#F9850E] text-[#FBFBEF] p-4 rounded-2xl shadow-[4.0px_10.0px_#EBB899] font-semibold w-[400px] hover:brightness-110 active:shadow-[1.0px_2.0px_2.0px_#EBB899] active:translate-y-1 active:translate-x-1">Start Playing</button>
+            </div>
+            <!-- Game infos -->
+            <div class="flex flex-col items-center w-[650px] justify-around h-screen mx-10">
+                <!-- Game title -->
+                <div class="">
+                    <h1 class="text-[#F9850E] font-extrabold text-7xl">Memory Game</h1>
+                </div>
+                <!-- Description -->
+                <div class="">
+                    <p class="font-mono text-4xl font-bold">Welcome to the Memory Game! Test your memory and concentration skills with this fun and challenging game. The objective is simple: match pairs of cards with the same picture to clear the board.</p>
+                </div>
+                <!-- Controls -->
+                <div class="text-3xl font-extrabold">
+                    <p class="mb-8 text-pink-500">Controls:</p>
+                    <p class="mb-4"><span class="text-pink-500">Start:</span> Click the "Start" button to begin the game.</p>
+                    <p class="mb-4"><span class="text-pink-500">Restart:</span> Click the "Restart" button to reset the game and start over.</p> 
+                    <p><span class="text-pink-500">Timer:</span> Keep an eye on the timer to track your progress.</p>   
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- game Board -->
+    <div id="game-board" class="flex flex-col hidden 2xl:flex-row items-center justify-around h-screen bg-[#F8ECC6] game-board"  >
+
+        <!-- Game container -->
+        <div id="container" class="bg-[#FDFDF3] m-12 relative h-auto min-h-[700px] place-items-center w-full max-w-[1100px] grid-cols-4 p-4 border-2 border-white sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-5 xl:grid-cols-5 game-container rounded-3xl shadow-[10.0px_10.0px_#EBB899]">
+            <!-- Show win msg -->
+            <div id="show-msg" class="absolute  justify-center top-[50%] hidden p-4 items-center left-[50%] translate-x-[-50%] translate-y-[-50%] flex flex-col  h-[250px] w-[400px] sm:h-[300px] sm:w-[450px] md:h-[400px] md:w-[550px] lg:h-[450px] lg:[700px] xl:h-[500px] xl:w-[800px] font-mono rounded-3xl shadow-[10.0px_10.0px_10.0px_rgba(0,0,0,0.38)]" style="background-image: url(images/msg_ultra.png);background-position: start;background-repeat: no-repeat; background-size: cover;">
+                <h1 class="text-2xl font-bold p-2 bg-[#F8ECC6] rounded-lg w-[200px] sm:w-[400px] md:w-[560px] bg-opacity-90 text-red-600 bg- sm:text-sm md:text-2xl lg:text-4xl xl:text-5xl">Level Completed!</h1>
+            </div>
+            <!-- Show Game Over msg.... times out -->
+            <div id="show-game-over-msg" class="absolute  justify-center top-[50%] hidden p-4 items-center left-[50%] translate-x-[-50%] translate-y-[-50%] flex flex-col  h-full w-full font-mono rounded-3xl shadow-[10.0px_10.0px_10.0px_rgba(0,0,0,0.38)]" style="background-image: url(images/msg_ultra.png);background-position: start;background-repeat: no-repeat; background-size: cover;">
+                <h1 class="text-2xl font-bold p-2 bg-[#F8ECC6] rounded-lg w-full sm:w-[400px] md:w-[560px] bg-opacity-90 text-red-600 sm:text-sm md:text-2xl lg:text-4xl xl:text-5xl" >Game Over...time's Out!</h1>
+            </div>
+            <!-- Starting the game time count down -->
+            <div id="show-count-down" class="absolute font-mono inset-0 flex items-center justify-center hidden bg-[#FDFDF3] rounded-3xl">
+                <h1 class="text-2xl font-medium text-[#FFD700] sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">Starting in <span id="count-down">3</span></h1>
+            </div>
+            <!-- Home page -->
+            <div id="home" class="absolute font-mono inset-0 flex items-center justify-center bg-[#FDFDF3] rounded-3xl">
+                <h1 class="text-2xl font-medium text-[#FFD700] sm:text-3xl md:text-4xl lg:text-4xl xl:text-5xl">Click "Start" to start the game!!</h1>
+            </div>
+            <!-- Cards -->
+            <div id="show-cards" class="grid items-center hidden grid-cols-4 place-items-center sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 rounded-3xl">
+                <div class="flex items-center w-20 h-20 my-2 border-2 rounded-3xl border-white cursor-pointer transition duration-500 ease-in-out lg:h-36 lg:w-36 md:h-[120px] md:w-[120px] sm:h-28 sm:w-28 bg-[#FAD918] p-2 cards">
+                    <img class="w-full h-full transition-opacity bg-center bg-contain rounded-3xl" src="images/background-yellow-color.jpg" alt="" srcset="">
+                </div>
+                <div class="flex items-center w-20 h-20 my-2 border-2 rounded-3xl border-white cursor-pointer transition duration-500 ease-in-out lg:h-36 lg:w-36 md:h-[120px] md:w-[120px] sm:h-28 sm:w-28 bg-[#FAD918] p-2 cards">
+                    <img class="w-full h-full transition-opacity bg-center bg-contain rounded-3xl" src="images/background-yellow-color.jpg" alt="" srcset="">
+                </div>
+                <div class="flex items-center w-20 h-20 my-2 border-2 rounded-3xl border-white cursor-pointer transition duration-500 ease-in-out lg:h-36 lg:w-36 md:h-[120px] md:w-[120px] sm:h-28 sm:w-28 bg-[#FAD918] p-2 cards">
+                    <img class="w-full h-full transition-opacity bg-center bg-contain rounded-3xl" src="images/background-yellow-color.jpg" alt="" srcset="">
+                </div>
+                <div class="flex items-center w-20 h-20 my-2 border-2 rounded-3xl border-white cursor-pointer transition duration-500 ease-in-out lg:h-36 lg:w-36 md:h-[120px] md:w-[120px] sm:h-28 sm:w-28 bg-[#FAD918] p-2 cards">
+                    <img class="w-full h-full transition-opacity bg-center bg-contain rounded-3xl" src="images/background-yellow-color.jpg" alt="" srcset="">
+                </div>
+                <div class="flex items-center w-20 h-20 my-2 border-2 rounded-3xl border-white cursor-pointer transition duration-500 ease-in-out lg:h-36 lg:w-36 md:h-[120px] md:w-[120px] sm:h-28 sm:w-28 bg-[#FAD918] p-2 cards">
+                    <img class="w-full h-full transition-opacity bg-center bg-contain rounded-3xl" src="images/background-yellow-color.jpg" alt="" srcset="">
+                </div>
+                <div class="flex items-center w-20 h-20 my-2 border-2 rounded-3xl border-white cursor-pointer transition duration-500 ease-in-out lg:h-36 lg:w-36 md:h-[120px] md:w-[120px] sm:h-28 sm:w-28 bg-[#FAD918] p-2 cards">
+                    <img class="w-full h-full transition-opacity bg-center bg-contain rounded-3xl" src="images/background-yellow-color.jpg" alt="" srcset="">
+                </div>
+                <div class="flex items-center w-20 h-20 my-2 border-2 rounded-3xl border-white cursor-pointer transition duration-500 ease-in-out lg:h-36 lg:w-36 md:h-[120px] md:w-[120px] sm:h-28 sm:w-28 bg-[#FAD918] p-2 cards">
+                    <img class="w-full h-full transition-opacity bg-center bg-contain rounded-3xl" src="images/background-yellow-color.jpg" alt="" srcset="">
+                </div>
+                <div class="flex items-center w-20 h-20 my-2 border-2 rounded-3xl border-white cursor-pointer transition duration-500 ease-in-out lg:h-36 lg:w-36 md:h-[120px] md:w-[120px] sm:h-28 sm:w-28 bg-[#FAD918] p-2 cards">
+                    <img class="w-full h-full transition-opacity bg-center bg-contain rounded-3xl" src="images/background-yellow-color.jpg" alt="" srcset="">
+                </div>
+                <div class="flex items-center w-20 h-20 my-2 border-2 rounded-3xl border-white cursor-pointer transition duration-500 ease-in-out lg:h-36 lg:w-36 md:h-[120px] md:w-[120px] sm:h-28 sm:w-28 bg-[#FAD918] p-2 cards">
+                    <img class="w-full h-full transition-opacity bg-center bg-contain rounded-3xl" src="images/background-yellow-color.jpg" alt="" srcset="">
+                </div>
+                <div class="flex items-center w-20 h-20 my-2 border-2 rounded-3xl border-white cursor-pointer transition duration-500 ease-in-out lg:h-36 lg:w-36 md:h-[120px] md:w-[120px] sm:h-28 sm:w-28 bg-[#FAD918] p-2 cards">
+                    <img class="w-full h-full transition-opacity bg-center bg-contain rounded-3xl" src="images/background-yellow-color.jpg" alt="" srcset="">
+                </div>
+                <div class="flex items-center w-20 h-20 my-2 border-2 rounded-3xl border-white cursor-pointer transition duration-500 ease-in-out lg:h-36 lg:w-36 md:h-[120px] md:w-[120px] sm:h-28 sm:w-28 bg-[#FAD918] p-2 cards">
+                    <img class="w-full h-full transition-opacity bg-center bg-contain rounded-3xl" src="images/background-yellow-color.jpg" alt="" srcset="">
+                </div>
+                <div class="flex items-center w-20 h-20 my-2 border-2 rounded-3xl border-white cursor-pointer transition duration-500 ease-in-out lg:h-36 lg:w-36 md:h-[120px] md:w-[120px] sm:h-28 sm:w-28 bg-[#FAD918] p-2 cards">
+                    <img class="w-full h-full transition-opacity bg-center bg-contain rounded-3xl" src="images/background-yellow-color.jpg" alt="" srcset="">
+                </div>
+                <div class="flex items-center w-20 h-20 my-2 border-2 rounded-3xl border-white cursor-pointer transition duration-500 ease-in-out lg:h-36 lg:w-36 md:h-[120px] md:w-[120px] sm:h-28 sm:w-28 bg-[#FAD918] p-2 cards">
+                    <img class="w-full h-full transition-opacity bg-center bg-contain rounded-3xl" src="images/background-yellow-color.jpg" alt="" srcset="">
+                </div>
+                <div class="flex items-center w-20 h-20 my-2 border-2 rounded-3xl border-white cursor-pointer transition duration-500 ease-in-out lg:h-36 lg:w-36 md:h-[120px] md:w-[120px] sm:h-28 sm:w-28 bg-[#FAD918] p-2 cards">
+                    <img class="w-full h-full transition-opacity bg-center bg-contain rounded-3xl" src="images/background-yellow-color.jpg" alt="" srcset="">
+                </div>
+                <div class="flex items-center w-20 h-20 my-2 border-2 rounded-3xl border-white cursor-pointer transition duration-500 ease-in-out lg:h-36 lg:w-36 md:h-[120px] md:w-[120px] sm:h-28 sm:w-28 bg-[#FAD918] p-2 cards">
+                    <img class="w-full h-full transition-opacity bg-center bg-contain rounded-3xl" src="images/background-yellow-color.jpg" alt="" srcset="">
+                </div>
+                <div class="flex items-center w-20 h-20 my-2 border-2 rounded-3xl border-white cursor-pointer transition duration-500 ease-in-out lg:h-36 lg:w-36 md:h-[120px] md:w-[120px] sm:h-28 sm:w-28 bg-[#FAD918] p-2 cards">
+                    <img class="w-full h-full transition-opacity bg-center bg-contain rounded-3xl" src="images/background-yellow-color.jpg" alt="" srcset="">
+                </div>
+                <div class="flex items-center w-20 h-20 my-2 border-2 rounded-3xl border-white cursor-pointer transition duration-500 ease-in-out lg:h-36 lg:w-36 md:h-[120px] md:w-[120px] sm:h-28 sm:w-28 bg-[#FAD918] p-2 cards">
+                    <img class="w-full h-full transition-opacity bg-center bg-contain rounded-3xl" src="images/background-yellow-color.jpg" alt="" srcset="">
+                </div>
+                <div class="flex items-center w-20 h-20 my-2 border-2 rounded-3xl border-white cursor-pointer transition duration-500 ease-in-out lg:h-36 lg:w-36 md:h-[120px] md:w-[120px] sm:h-28 sm:w-28 bg-[#FAD918] p-2 cards">
+                    <img class="w-full h-full transition-opacity bg-center bg-contain rounded-3xl" src="images/background-yellow-color.jpg" alt="" srcset="">
+                </div>
+                <div class="flex items-center w-20 h-20 my-2 border-2 rounded-3xl border-white cursor-pointer transition duration-500 ease-in-out lg:h-36 lg:w-36 md:h-[120px] md:w-[120px] sm:h-28 sm:w-28 bg-[#FAD918] p-2 cards">
+                    <img class="w-full h-full transition-opacity bg-center bg-contain rounded-3xl" src="images/background-yellow-color.jpg" alt="" srcset="">
+                </div>
+                <div class="flex items-center w-20 h-20 my-2 border-2 rounded-3xl border-white cursor-pointer transition duration-500 ease-in-out lg:h-36 lg:w-36 md:h-[120px] md:w-[120px] sm:h-28 sm:w-28 bg-[#FAD918] p-2 cards">
+                    <img class="w-full h-full transition-opacity bg-center bg-contain rounded-3xl" src="images/background-yellow-color.jpg" alt="" srcset="">
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Gameplay infos -->
+        <div class="bg-[#FDFDF3] relative rounded-xl h-auto flex flex-col shadow-[4.0px_8.0px_#EBB899] w-[500px]">
+            <!-- Score, timer and high Score -->
+            <div id="score-time" class="flex flex-col mx-4 font-mono score-timer">
+                <!-- score -->
+                <div class="flex m-4 text-4xl text-[#FFD700] font-bold score">
+                    <label for="score">Score:</label>
+                    <label id="score" for="score-count">0</label>
+                </div>
+                <!-- High score -->
+                <div class="flex m-4 text-4xl text-[#FFD700] font-bold score">
+                    <label for="highscore">HighScore:</label>
+                    <label id="high-score" for="high-score-count">0</label>
+                </div>
+                <!-- Timer -->
+                <div class="flex m-4 text-4xl text-[#FFD700] font-bold Time ">
+                    <label for="Time">Time:</label>
+                    <label id="time" for="Time-count">00:00</label>
+                </div>                                  
+            </div>
+            <!-- Current Level -->
+            <div class="absolute flex items-center justify-center right-4 top-4">
+                <h1 class="font-mono text-3xl font-medium bg-[#ffe9a1] p-2 rounded-md text-red-500">Level: <span id="level-count">1</span></h1>
+            </div>
+            <!-- Start and restart -->
+            <div class="flex items-center justify-between h-24 mx-4 font-mono start-restart">
+                <!-- Start -->
+                <div id="start-btn-parent" class="flex justify-center m-4 ">
+                    <button class="w-32 h-12 text-4xl text-white bg-red-500 rounded-lg cursor-pointer disabled:bg-red-300 disabled:hover:brightness-100 hover:brightness-110 Start" id="start" type="button">Start</button>
+                </div>
+                <!-- Restart -->
+                <div id="restart" class="flex justify-center hidden m-4">
+                    <button class="h-12 text-4xl text-white bg-red-500 rounded-lg cursor-pointer w-44 hover:brightness-110 Start" type="button">Restart</button>
+                </div> 
+                <!-- Next level -->
+                <div class="flex items-center justify-center w-32 h-12 m-4">
+                    <button class="w-32 h-12 text-4xl text-white bg-red-500 rounded-lg cursor-pointer disabled:bg-red-300 disabled:hover:brightness-100 hover:brightness-110 Start" id="next-level" type="button">Next</button>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</body>
+<script type="module" src="script2.js"></script>
+</html>
